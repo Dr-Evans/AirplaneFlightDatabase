@@ -20,7 +20,7 @@ function register($username, $password, $name, $address, $email, $phone, $connec
         oci_bind_by_name($reservationInsert, ":name", $name);
 	oci_bind_by_name($reservationInsert, ":address", $address);
         oci_bind_by_name($reservationInsert, ":phone", $phone);
-        oci_bind_by_name($reservationInsert, ":username", $uername);
+        oci_bind_by_name($reservationInsert, ":username", $username);
         
         $maxReservationNum = oci_parse($connection, "SELECT MAX(reservation#) FROM Reservation");
         oci_execute($maxReservationNum);

@@ -38,7 +38,14 @@
                 $state = $_POST["modify_airport_state"];
                 $name = $_POST["modify_airport_name"];
                 
-                insertAirplane($code, $city, $state, $name, $connection);
+                $w = insertAirplane($code, $city, $state, $name, $connection);
+                
+                if ($w){
+                    echo "<b>Insertion successful.</b><br>";
+                }
+                else{
+                    echo "<b>Insertion unsuccessful.</b><br>";
+                }
             }
             
             //Delete Airport
@@ -48,7 +55,14 @@
                 $state = $_POST["modify_airport_state"];
                 $name = $_POST["modify_airport_name"];
                 
-                deleteAirplane($code, $city, $state, $name, $connection);
+                $w = deleteAirplane($code, $city, $state, $name, $connection);
+                
+                if ($w){
+                    echo "<b>Deletion successful.</b><br>";
+                }
+                else{
+                    echo "<b>Deletion unsuccessful.</b><br>";
+                }
             }
         ?>
         
@@ -74,7 +88,14 @@
                 $time = $_POST["modify_departure_time"];
                 $date = $_POST["modify_departure_date"];
                 
-                insertDeparture($code, $legNum, $tripNum, $time, $date, $connection);
+                $w = insertDeparture($code, $legNum, $tripNum, $time, $date, $connection);
+                
+                if ($w){
+                    echo "<b>Insertion successful.</b><br>";
+                }
+                else{
+                    echo "<b>Insertion unsuccessful.</b><br>";
+                }
             }
             
             //Delete Departure
@@ -84,7 +105,14 @@
                 $time = $_POST["modify_departure_time"];
                 $date = $_POST["modify_departure_date"];
                 
-                deleteDeparture($code, $legNum, $tripNum, $time, $date, $connection);
+                $w = deleteDeparture($code, $legNum, $tripNum, $time, $date, $connection);
+                
+                if ($w){
+                    echo "<b>Deletion successful.</b><br>";
+                }
+                else{
+                    echo "<b>Deletion unsuccessful.</b><br>";
+                }
             }
         ?>
         
@@ -109,7 +137,14 @@
                 $time = $_POST["modify_arrival_time"];
                 $date = $_POST["modify_arrival_date"];
                 
-                insertArrival($code, $legNum, $tripNum, $time, $date, $connection);
+                $w = insertArrival($code, $legNum, $tripNum, $time, $date, $connection);
+                
+                if ($w){
+                    echo "<b>Insertion successful.</b><br>";
+                }
+                else{
+                    echo "<b>Insertion unsuccessful.</b><br>";
+                }
             }
             
             //Delete Airport
@@ -120,7 +155,14 @@
                 $time = $_POST["modify_arrival_time"];
                 $date = $_POST["modify_arrival_date"];
                 
-                insertArrival($code, $legNum, $tripNum, $time, $date, $connection);
+                $w = insertArrival($code, $legNum, $tripNum, $time, $date, $connection);
+                
+                if ($w){
+                    echo "<b>Deletion successful.</b><br>";
+                }
+                else{
+                    echo "<b>Deletion unsuccessful.</b><br>";
+                }
             }
         ?>
         
@@ -143,7 +185,14 @@
                 $seats = $_POST["modify_flight_leg_available_seats"];
                 $date = $_POST["modify_flight_leg_date"];
                 
-                insertFlightLeg($legNum, $tripNum, $seats, $date, $connection);
+                $w = insertFlightLeg($legNum, $tripNum, $seats, $date, $connection);
+                
+                if ($w){
+                    echo "<b>Insertion successful.</b><br>";
+                }
+                else{
+                    echo "<b>Insertion unsuccessful.</b><br>";
+                }
             }
             
             //Delete Flight Leg
@@ -153,7 +202,125 @@
                 $seats = $_POST["modify_flight_leg_available_seats"];
                 $date = $_POST["modify_flight_leg_date"];
                 
-                deleteFlightLeg($legNum, $tripNum, $seats, $date, $connection);
+                $w = deleteFlightLeg($legNum, $tripNum, $seats, $date, $connection);
+                
+                if ($w){
+                    echo "<b>Deletion successful.</b><br>";
+                }
+                else{
+                    echo "<b>Deletion unsuccessful.</b><br>";
+                }
+            }
+        ?>
+        
+        <h2>Modify Trip</h2>
+        <form action="" method="post" name="modify_trip">
+            Trip Number: <input type="text" name="modify_trip_trip_number"> </br>
+            Airline: <input type="text" name="modify_trip_airline"> </br>
+            Price: <input type="text" name="modify_trip_price"> </br>
+            Departure Code: <input type="text" name="modify_trip_departure_code"> </br>
+            Arrival Code: <input type="text" name="modify_trip_arrival_code"> </br>
+            Number Of Legs: <input type="text" name="modify_trip_legs"> </br>
+            <input type="submit" value="insert" name="modify_trip_insert_button" />
+            <input type="submit" value="delete" name="modify_trip_delete_button" />
+            <input type="reset" value="clear" name="modify_trip_clear" />
+        </form>
+        
+        <?php
+            //Insert Trip
+            if(isset($_POST['modify_trip_trip_number']) && isset($_POST['modify_trip_airline']) && isset($_POST['modify_trip_price']) && isset($_POST['modify_trip_departure_code']) && ($_POST['modify_trip_arrival_code']) && ($_POST['modify_trip_legs']) && ($_POST['modify_trip_insert_button'])){
+
+                $tripNum = $_POST["modify_trip_trip_number"];
+                $airline = $_POST["modify_trip_airline"];
+                $price = $_POST["modify_trip_price"];
+                $departureCode = $_POST["modify_trip_departure_code"];
+                $arrivalCode = $_POST["modify_trip_arrival_code"];
+                $legs = $_POST["modify_trip_legs"];
+                
+                $w = insertTrip($tripNum, $airline, $price, $departureCode, $arrivalCode, $legs, $connection);
+                
+                if ($w){
+                    echo "<b>Insertion successful.</b><br>";
+                }
+                else{
+                    echo "<b>Insertion unsuccessful.</b><br>";
+                }
+            }
+            
+            //Delete Trip
+            if(isset($_POST['modify_trip_trip_number']) && isset($_POST['modify_trip_airline']) && isset($_POST['modify_trip_price']) && isset($_POST['modify_trip_departure_code']) && ($_POST['modify_trip_arrival_code']) && ($_POST['modify_trip_legs']) && ($_POST['modify_trip_delete_button'])){
+
+                $tripNum = $_POST["modify_trip_trip_number"];
+                $airline = $_POST["modify_trip_airline"];
+                $price = $_POST["modify_trip_price"];
+                $departureCode = $_POST["modify_trip_departure_code"];
+                $arrivalCode = $_POST["modify_trip_arrival_code"];
+                $legs = $_POST["modify_trip_legs"];
+                
+                $w = deleteTrip($tripNum, $airline, $price, $departureCode, $arrivalCode, $legs, $connection);
+                
+                if ($w){
+                    echo "<b>Deletion successful.</b><br>";
+                }
+                else{
+                    echo "<b>Deletion unsuccessful.</b><br>";
+                }
+            }
+        ?>
+        
+        
+        <h2>Modify Assign</h2>
+        <form action="" method="post" name="modify_assign">
+            Trip Number: <input type="text" name="modify_assign_assign_number"> </br>
+            Airline: <input type="text" name="modify_assign_airline"> </br>
+            Price: <input type="text" name="modify_assign_price"> </br>
+            Departure Code: <input type="text" name="modify_assign_departure_code"> </br>
+            Arrival Code: <input type="text" name="modify_assign_arrival_code"> </br>
+            Number Of Legs: <input type="text" name="modify_assign_legs"> </br>
+            <input type="submit" value="insert" name="modify_assign_insert_button" />
+            <input type="submit" value="delete" name="modify_assign_delete_button" />
+            <input type="reset" value="clear" name="modify_assign_clear" />
+        </form>
+        
+        <?php
+            //Insert Trip
+            if(isset($_POST['modify_assign_assign_number']) && isset($_POST['modify_assign_airline']) && isset($_POST['modify_assign_price']) && isset($_POST['modify_assign_departure_code']) && ($_POST['modify_assign_arrival_code']) && ($_POST['modify_assign_legs']) && ($_POST['modify_assign_insert_button'])){
+
+                $assignNum = $_POST["modify_assign_assign_number"];
+                $airline = $_POST["modify_assign_airline"];
+                $price = $_POST["modify_assign_price"];
+                $departureCode = $_POST["modify_assign_departure_code"];
+                $arrivalCode = $_POST["modify_assign_arrival_code"];
+                $legs = $_POST["modify_assign_legs"];
+                
+                $w = insertTrip($assignNum, $airline, $price, $departureCode, $arrivalCode, $legs, $connection);
+                
+                if ($w){
+                    echo "<b>Insertion successful.</b><br>";
+                }
+                else{
+                    echo "<b>Insertion unsuccessful.</b><br>";
+                }
+            }
+            
+            //Delete Trip
+            if(isset($_POST['modify_assign_assign_number']) && isset($_POST['modify_assign_airline']) && isset($_POST['modify_assign_price']) && isset($_POST['modify_assign_departure_code']) && ($_POST['modify_assign_arrival_code']) && ($_POST['modify_assign_legs']) && ($_POST['modify_assign_delete_button'])){
+
+                $assignNum = $_POST["modify_assign_assign_number"];
+                $airline = $_POST["modify_assign_airline"];
+                $price = $_POST["modify_assign_price"];
+                $departureCode = $_POST["modify_assign_departure_code"];
+                $arrivalCode = $_POST["modify_assign_arrival_code"];
+                $legs = $_POST["modify_assign_legs"];
+                
+                $w = deleteTrip($assignNum, $airline, $price, $departureCode, $arrivalCode, $legs, $connection);
+                
+                if ($w){
+                    echo "<b>Deletion successful.</b><br>";
+                }
+                else{
+                    echo "<b>Deletion unsuccessful.</b><br>";
+                }
             }
         ?>
         

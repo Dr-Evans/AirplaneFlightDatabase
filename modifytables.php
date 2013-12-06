@@ -7,9 +7,11 @@
         oci_bind_by_name($airportInsert, ":state", $state);
         oci_bind_by_name($airportInsert, ":name", $name);
         
-        oci_execute($airportInsert);
+        $worked = oci_execute($airportInsert);
         
         oci_free_statement($airportInsert);
+        
+        return $worked;
     }
     
     function deleteAirplane($code, $city, $state, $name, $connection){
@@ -20,9 +22,11 @@
         oci_bind_by_name($airportInsert, ":state", $state);
         oci_bind_by_name($airportInsert, ":name", $name);
         
-        oci_execute($airportInsert);
+        $worked = oci_execute($airportInsert);
         
         oci_free_statement($airportInsert);
+        
+        return $worked;
     }
     
     function insertDeparture($code, $legNum, $tripNum, $time, $date, $connection){
@@ -32,9 +36,11 @@
         oci_bind_by_name($departureInsert, ":legNum", $legNum);
         oci_bind_by_name($departureInsert, ":tripNum", $tripNum);
         
-        oci_execute($departureInsert);
+        $worked = oci_execute($departureInsert);
         
-        oci_free_statement($departureInsert);        
+        oci_free_statement($departureInsert);
+        
+        return $worked;
     }
     
     function deleteDeparture($code, $legNum, $tripNum, $time, $date, $connection){
@@ -44,9 +50,11 @@
         oci_bind_by_name($departureDelete, ":legNum", $legNum);
         oci_bind_by_name($departureDelete, ":tripNum", $tripNum);
         
-        oci_execute($departureDelete);
+        $worked = oci_execute($departureDelete);
         
-        oci_free_statement($departureDelete);        
+        oci_free_statement($departureDelete);
+        
+        return $worked;
     }
     
     function insertArrival($code, $legNum, $tripNum, $time, $date, $connection){
@@ -56,9 +64,11 @@
         oci_bind_by_name($arrivalInsert, ":legNum", $legNum);
         oci_bind_by_name($arrivalInsert, ":tripNum", $tripNum);
         
-        oci_execute($arrivalInsert);
+        $worked = oci_execute($arrivalInsert);
         
-        oci_free_statement($arrivalInsert);        
+        oci_free_statement($arrivalInsert);
+        
+        return $worked;
     }
     
     function deleteArrival($code, $legNum, $tripNum, $time, $date, $connection){
@@ -68,9 +78,11 @@
         oci_bind_by_name($arrivalDelete, ":legNum", $legNum);
         oci_bind_by_name($arrivalDelete, ":tripNum", $tripNum);
         
-        oci_execute($arrivalDelete);
+        $worked = oci_execute($arrivalDelete);
         
-        oci_free_statement($arrivalDelete);        
+        oci_free_statement($arrivalDelete);
+
+        return $worked;
     }
     
     function insertFlightLeg($legNum, $tripNum, $seats, $date, $connection){
@@ -80,9 +92,11 @@
         oci_bind_by_name($flightLegInsert, ":tripNum", $tripNum);       
         oci_bind_by_name($flightLegInsert, ":seats", $seats);
         
-        oci_execute($flightLegInsert);
+        $worked = oci_execute($flightLegInsert);
         
-        oci_free_statement($flightLegInsert);        
+        oci_free_statement($flightLegInsert);
+        
+        return $worked;
     }
 
     function deleteFlightLeg($legNum, $tripNum, $seats, $date, $connection){
@@ -92,8 +106,44 @@
         oci_bind_by_name($flightLegDelete, ":tripNum", $tripNum);       
         oci_bind_by_name($flightLegDelete, ":seats", $seats);
         
-        oci_execute($flightLegDelete);
+        $worked = oci_execute($flightLegDelete);
         
-        oci_free_statement($flightLegDelete);        
+        oci_free_statement($flightLegDelete);
+        
+        return $worked;
+    }
+    
+    function insertTrip($tripNum, $airline, $price, $departureCode, $arrivalCode, $legs, $connection){
+        $tripInsert = oci_parse($connection, "INSERT INTO FlightLeg VALUES(:tripNum, :airline, :price, :departureCode, :arrivalCode, :legs)");
+    
+        oci_bind_by_name($tripInsert, ":tripNum", $tripNum);
+        oci_bind_by_name($tripInsert, ":airline", $airline);
+        oci_bind_by_name($tripInsert, ":price", $price);
+        oci_bind_by_name($tripInsert, ":departureCode", $departureCode);
+        oci_bind_by_name($tripInsert, ":arrivalCode", $arrivalCode);
+        oci_bind_by_name($tripInsert, ":legs", $legs);
+        
+        $worked = oci_execute($tripInsert);
+        
+        oci_free_statement($tripInsert);
+        
+        return $worked;
+    }
+    
+    function deleteTrip($tripNum, $airline, $price, $departureCode, $arrivalCode, $legs, $connection){
+        $tripDelete = oci_parse($connection, "DELETE FROM Trip WHERE trip# = :tripNum AND airline = :airline AND price = :price AND departure = :departureCode AND arrival = :arrivalCode AND numOfLegs = :legs");
+    
+        oci_bind_by_name($tripDelete, ":tripNum", $tripNum);
+        oci_bind_by_name($tripDelete, ":airline", $airline);
+        oci_bind_by_name($tripDelete, ":price", $price);
+        oci_bind_by_name($tripDelete, ":departureCode", $departureCode);
+        oci_bind_by_name($tripDelete, ":arrivalCode", $arrivalCode);
+        oci_bind_by_name($tripDelete, ":legs", $legs);
+        
+        $worked = oci_execute($tripDelete);
+        
+        oci_free_statement($tripDelete);
+        
+        return $worked;
     }
 ?>
