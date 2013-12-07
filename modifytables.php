@@ -58,7 +58,7 @@
     }
     
     function insertArrival($code, $legNum, $tripNum, $time, $date, $connection){
-        $arrivalInsert = oci_parse($connection, "INSERT INTO Departure VALUES(:code, :legNum, :tripNum, '$time', '$date')");
+        $arrivalInsert = oci_parse($connection, "INSERT INTO Arrival VALUES(:code, :legNum, :tripNum, '$time', '$date')");
     
         oci_bind_by_name($arrivalInsert, ":code", $code);
         oci_bind_by_name($arrivalInsert, ":legNum", $legNum);
@@ -72,7 +72,7 @@
     }
     
     function deleteArrival($code, $legNum, $tripNum, $time, $date, $connection){
-        $arrivalDelete = oci_parse($connection, "DELETE FROM Departure WHERE code = :code AND legNumber = :legNum AND trip# = :tripNum AND SCHEDULETIME = '$time' AND arrivaldate = '$date'");
+        $arrivalDelete = oci_parse($connection, "DELETE FROM Arrival WHERE code = :code AND legNumber = :legNum AND trip# = :tripNum AND SCHEDULETIME = '$time' AND arrivaldate = '$date'");
     
         oci_bind_by_name($arrivalDelete, ":code", $code);
         oci_bind_by_name($arrivalDelete, ":legNum", $legNum);
@@ -114,7 +114,7 @@
     }
     
     function insertTrip($tripNum, $airline, $price, $departureCode, $arrivalCode, $legs, $connection){
-        $tripInsert = oci_parse($connection, "INSERT INTO FlightLeg VALUES(:tripNum, :airline, :price, :departureCode, :arrivalCode, :legs)");
+        $tripInsert = oci_parse($connection, "INSERT INTO Trip VALUES(:tripNum, :airline, :price, :departureCode, :arrivalCode, :legs)");
     
         oci_bind_by_name($tripInsert, ":tripNum", $tripNum);
         oci_bind_by_name($tripInsert, ":airline", $airline);
@@ -234,7 +234,7 @@
         
         return $worked;
     }
-    /*
+    
     function insertReservation($resNum, $email, $name, $address, $phoneNum, $resDate, $customerUsername, $connection){
         $reservationInsert = oci_parse($connection, "INSERT INTO Reservation VALUES (:resNum, :email, :name, :address, :phoneNum, '$resDate', :customerUsername)");
     
@@ -268,6 +268,5 @@
         
         return $worked;
     }
-    */
 ?>
 

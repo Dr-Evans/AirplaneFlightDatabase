@@ -12,7 +12,7 @@
     include 'modifytables.php';
     
     session_start();
-    echo "Welcome, " . $_SESSION['username'] . ".";
+    echo "Welcome, <b>" . $_SESSION['username'] . "</b>.";
     $connection = oci_connect('rquan', 'volcom24!!', '//oracle.cise.ufl.edu/orcl');
              
 ?>
@@ -31,6 +31,9 @@
         </form>
         
         <?php
+            $hit = false;
+            $w = false;
+            $y = false;
             //Insert Airport
             if(isset($_POST['modify_airport_code']) && isset($_POST['modify_airport_city']) && isset($_POST['modify_airport_state']) && isset($_POST['modify_airport_name']) && isset($_POST['modify_airport_insert_button'])){
                 $code = $_POST["modify_airport_code"];
@@ -39,13 +42,7 @@
                 $name = $_POST["modify_airport_name"];
                 
                 $w = insertAirport($code, $city, $state, $name, $connection);
-                
-                if ($w){
-                    echo "<b>Insertion successful.</b><br>";
-                }
-                else{
-                    echo "<b>Insertion unsuccessful.</b><br>";
-                }
+                $hit = true;
             }
             
             //Delete Airport
@@ -55,14 +52,8 @@
                 $state = $_POST["modify_airport_state"];
                 $name = $_POST["modify_airport_name"];
                 
-                $w = deleteAirport($code, $city, $state, $name, $connection);
-                
-                if ($w){
-                    echo "<b>Deletion successful.</b><br>";
-                }
-                else{
-                    echo "<b>Deletion unsuccessful.</b><br>";
-                }
+                $y = deleteAirport($code, $city, $state, $name, $connection);
+                $hit = true;
             }
         ?>
         
@@ -89,13 +80,7 @@
                 $date = $_POST["modify_departure_date"];
                 
                 $w = insertDeparture($code, $legNum, $tripNum, $time, $date, $connection);
-                
-                if ($w){
-                    echo "<b>Insertion successful.</b><br>";
-                }
-                else{
-                    echo "<b>Insertion unsuccessful.</b><br>";
-                }
+                $hit = true;
             }
             
             //Delete Departure
@@ -105,14 +90,8 @@
                 $time = $_POST["modify_departure_time"];
                 $date = $_POST["modify_departure_date"];
                 
-                $w = deleteDeparture($code, $legNum, $tripNum, $time, $date, $connection);
-                
-                if ($w){
-                    echo "<b>Deletion successful.</b><br>";
-                }
-                else{
-                    echo "<b>Deletion unsuccessful.</b><br>";
-                }
+                $y = deleteDeparture($code, $legNum, $tripNum, $time, $date, $connection);
+                $hit = true;
             }
         ?>
         
@@ -138,31 +117,19 @@
                 $date = $_POST["modify_arrival_date"];
                 
                 $w = insertArrival($code, $legNum, $tripNum, $time, $date, $connection);
-                
-                if ($w){
-                    echo "<b>Insertion successful.</b><br>";
-                }
-                else{
-                    echo "<b>Insertion unsuccessful.</b><br>";
-                }
+                $hit = true;
             }
             
-            //Delete Airport
+            //Delete Arrival
             if(isset($_POST['modify_arrival_code']) && isset($_POST['modify_arrival_leg_number']) && isset($_POST['modify_arrival_trip_number']) && isset($_POST['modify_arrival_time']) && isset($_POST['modify_arrival_date']) && ($_POST['modify_arrival_delete_button'])){
-                $code = $_POST["modify_arrival_code"];
+               $code = $_POST["modify_arrival_code"];
                 $legNum = $_POST["modify_arrival_leg_number"];
                 $tripNum = $_POST["modify_arrival_trip_number"];
                 $time = $_POST["modify_arrival_time"];
                 $date = $_POST["modify_arrival_date"];
                 
-                $w = insertArrival($code, $legNum, $tripNum, $time, $date, $connection);
-                
-                if ($w){
-                    echo "<b>Deletion successful.</b><br>";
-                }
-                else{
-                    echo "<b>Deletion unsuccessful.</b><br>";
-                }
+                $y = deleteArrival($code, $legNum, $tripNum, $time, $date, $connection);
+                $hit = true;
             }
         ?>
         
@@ -186,13 +153,7 @@
                 $date = $_POST["modify_flight_leg_date"];
                 
                 $w = insertFlightLeg($legNum, $tripNum, $seats, $date, $connection);
-                
-                if ($w){
-                    echo "<b>Insertion successful.</b><br>";
-                }
-                else{
-                    echo "<b>Insertion unsuccessful.</b><br>";
-                }
+                $hit = true;
             }
             
             //Delete Flight Leg
@@ -202,14 +163,8 @@
                 $seats = $_POST["modify_flight_leg_available_seats"];
                 $date = $_POST["modify_flight_leg_date"];
                 
-                $w = deleteFlightLeg($legNum, $tripNum, $seats, $date, $connection);
-                
-                if ($w){
-                    echo "<b>Deletion successful.</b><br>";
-                }
-                else{
-                    echo "<b>Deletion unsuccessful.</b><br>";
-                }
+                $y = deleteFlightLeg($legNum, $tripNum, $seats, $date, $connection);
+                $hit = true;
             }
         ?>
         
@@ -238,13 +193,7 @@
                 $legs = $_POST["modify_trip_legs"];
                 
                 $w = insertTrip($tripNum, $airline, $price, $departureCode, $arrivalCode, $legs, $connection);
-                
-                if ($w){
-                    echo "<b>Insertion successful.</b><br>";
-                }
-                else{
-                    echo "<b>Insertion unsuccessful.</b><br>";
-                }
+                $hit = true;
             }
             
             //Delete Trip
@@ -257,14 +206,8 @@
                 $arrivalCode = $_POST["modify_trip_arrival_code"];
                 $legs = $_POST["modify_trip_legs"];
                 
-                $w = deleteTrip($tripNum, $airline, $price, $departureCode, $arrivalCode, $legs, $connection);
-                
-                if ($w){
-                    echo "<b>Deletion successful.</b><br>";
-                }
-                else{
-                    echo "<b>Deletion unsuccessful.</b><br>";
-                }
+                $y = deleteTrip($tripNum, $airline, $price, $departureCode, $arrivalCode, $legs, $connection);
+                $hit = true;
             }
         ?>
         
@@ -288,13 +231,7 @@
                 $tripNum = $_POST["modify_assign_trip_number"];
                 
                 $w = insertAssign($planeID, $legNum, $tripNum, $connection);
-                
-                if ($w){
-                    echo "<b>Insertion successful.</b><br>";
-                }
-                else{
-                    echo "<b>Insertion unsuccessful.</b><br>";
-                }
+                $hit = true;
             }
             
             //Delete Assign
@@ -304,14 +241,8 @@
                 $legNum = $_POST["modify_assign_leg_number"];
                 $tripNum = $_POST["modify_assign_trip_number"];
                 
-                $w = deleteAssign($planeID, $legNum, $tripNum, $connection);
-                
-                if ($w){
-                    echo "<b>Insertion successful.</b><br>";
-                }
-                else{
-                    echo "<b>Insertion unsuccessful.</b><br>";
-                }
+                $y = deleteAssign($planeID, $legNum, $tripNum, $connection);
+                $hit = true;
             }
         ?>
         
@@ -335,13 +266,7 @@
                 $seats = $_POST["modify_airplane_seats"];
                 
                 $w = insertAirplane($planeID, $type, $seats, $connection);
-                
-                if ($w){
-                    echo "<b>Insertion successful.</b><br>";
-                }
-                else{
-                    echo "<b>Insertion unsuccessful.</b><br>";
-                }
+                $hit = true;
             }
             
             //Delete Airplane
@@ -351,14 +276,8 @@
                 $type = $_POST["modify_airplane_type"];
                 $seats = $_POST["modify_airplane_seats"];
                 
-                $w = deleteAirplane($planeID, $type, $seats, $connection);
-                
-                if ($w){
-                    echo "<b>Deletion successful.</b><br>";
-                }
-                else{
-                    echo "<b>Deletion unsuccessful.</b><br>";
-                }
+                $y = deleteAirplane($planeID, $type, $seats, $connection);
+                $hit = true;
             }
         ?>
         
@@ -388,13 +307,7 @@
                 $date = $_POST["modify_payment_date"];
                 
                 $w = insertPayment($tripNum, $resNum, $transNum, $name, $accNum, $date, $connection);
-                
-                if ($w){
-                    echo "<b>Insertion successful.</b><br>";
-                }
-                else{
-                    echo "<b>Insertion unsuccessful.</b><br>";
-                }
+                $hit = true;
             }
             
             //Delete Payemnt
@@ -407,14 +320,8 @@
                 $accNum = $_POST["modify_payment_account_number"];
                 $date = $_POST["modify_payment_date"];
                 
-                $w = deletePayment($tripNum, $resNum, $transNum, $name, $accNum, $date, $connection);
-                
-                if ($w){
-                    echo "<b>Deletion successful.</b><br>";
-                }
-                else{
-                    echo "<b>Deletion unsuccessful.</b><br>";
-                }
+                $y = deletePayment($tripNum, $resNum, $transNum, $name, $accNum, $date, $connection);
+                $hit = true;
             }
         ?>
         
@@ -446,17 +353,11 @@
                 $customerUsername = $_POST["modify_reservation_username"];
                 
                 $w = insertReservation($resNum, $email, $name, $address, $phoneNum, $resDate, $customerUsername, $connection);
-                
-                if ($w){
-                    echo "<b>Insertion successful.</b><br>";
-                }
-                else{
-                    echo "<b>Insertion unsuccessful.</b><br>";
-                }
+                $hit = true;
             }
             
             //Delete Reservation
-            if(isset($_POST['modify_reservation_reservation_number']) && isset($_POST['modify_reservation_email']) && isset($_POST['modify_reservation_name']) && isset($_POST['modify_reservation_address']) && isset($_POST['modify_reservation_phone_number']) && isset($_POST['modify_reservation_reservation_date']) && isset($_POST['modify_reservation_username']) && isset($_POST['modify_reservation_insert_button'])){
+            if(isset($_POST['modify_reservation_reservation_number']) && isset($_POST['modify_reservation_email']) && isset($_POST['modify_reservation_name']) && isset($_POST['modify_reservation_address']) && isset($_POST['modify_reservation_phone_number']) && isset($_POST['modify_reservation_reservation_date']) && isset($_POST['modify_reservation_username']) && isset($_POST['modify_reservation_delete_button'])){
 
                 $resNum = $_POST["modify_reservation_reservation_number"];
                 $email = $_POST["modify_reservation_email"];
@@ -466,14 +367,8 @@
                 $resDate = $_POST["modify_reservation_reservation_date"];
                 $customerUsername = $_POST["modify_reservation_username"];
                 
-                $w = deleteReservation($resNum, $email, $name, $address, $phoneNum, $resDate, $customerUsername, $connection);
-                
-                if ($w){
-                    echo "<b>Deletion successful.</b><br>";
-                }
-                else{
-                    echo "<b>Deletion unsuccessful.</b><br>";
-                }
+                $y = deleteReservation($resNum, $email, $name, $address, $phoneNum, $resDate, $customerUsername, $connection);
+                $hit = true;
             }
         ?>
         
@@ -512,7 +407,25 @@
         </div>
    </div>
 </div>
-<div style="clear:both"></div>
+<div style="clear:both">
+    <?php
+    if($hit){
+        if ($w && !($y)){
+            echo "<b>Insertion successful.</b><br>";
+        }
+        else{
+            echo "<b>Insertion unsuccessful.</b><br>";
+        }
+        
+        if (!($w) && $y){
+            echo "<b>Deletion successful.</b><br>";
+        }
+        else{
+            echo "<b>Deletion unsuccessful.</b><br>";
+        }
+    }
+    ?>
+</div>
 </body>
 
 
