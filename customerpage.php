@@ -6,6 +6,7 @@
 <body>
 
 <h1>Customer Page</h1>
+<h4><a href="index.php">Homepage</a></h4>
 
 <?php
     session_start();
@@ -33,7 +34,14 @@
     <input type="reset" value="clear" name="date_clear_button" />
 </form>
 
-
+<h2>Make a Payment</h2>
+<form action="" method="post" name="payment">
+    Name on Card: <input type="text" name="payment_full_name"> </br>
+    Account Number: <input type="text" name="payment_account_number"> </br>
+    Trip Number: <input type="text" name="payment_trip_number"> </br>
+    <input type="submit" value="search" name="payment_search_button" />
+    <input type="reset" value="clear" name="payment_clear_button" />
+</form>
 
 <?php
     include 'printquery.php';
@@ -149,6 +157,42 @@
         
         oci_free_statement($result);
         
+    }
+    
+    if(isset($_POST['payment_full_name']) && isset($_POST['payment_account_number']) && isset($_POST['payment_trip_number']) && isset($_POST['payment_search_button'])){
+        $name = $_SESSION['username'];
+        $fullName = $_POST['payment_full_name'];
+        $accNum = $_POST["payment_account_number"];
+	$tripNum = $_POST["payment_trip_number"];
+        
+        $date = to_date('SYSDATE','DD-MON-YY');
+                        
+        $reservationNumQuery = oci_parse($connection, "SELECT Reservation#
+                                                        FROM Reservation
+                                                        WHERE username = :name");
+                           
+        oci_bind_by_name($reservationNumQuery, ":name", $name);
+        
+        oci_execute($reservationNumQuery);
+        oci_free_statement($reservationNumQuery);
+        
+        $resArray = oci_fetch_array($reservationNumQuery);
+        
+        $resNum = $resArray[0];
+        $transNum = $resNum;
+        
+        echo $resNum;
+        
+        $result = oci_parse($connection, "INSERT INTO Payment VALUES (:tripNum, :transNum, '$date', :accNum, :fullName, :resNum)");
+
+        oci_bind_by_name($result, ":tripNum", $tripNum);
+        oci_bind_by_name($result, ":transNum", $transNum);
+        oci_bind_by_name($result, ":accNum", $accNum);
+        oci_bind_by_name($result, ":fullName", $fullName);
+        oci_bind_by_name($result, ":resNum", $resNum);
+        
+        oci_execute($result);
+        oci_free_statement($result);
     }
     
     oci_close($connection);

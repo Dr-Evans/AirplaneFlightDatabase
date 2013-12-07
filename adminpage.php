@@ -6,7 +6,7 @@
 <body style="width:100%;">
 
 <h1>Admin Page</h1>
-
+<h4><a href="index.php">Homepage</a></h4>
 <?php
     include 'printtables.php';
     include 'modifytables.php';
@@ -413,15 +413,9 @@
         if ($w && !($y)){
             echo "<b>Insertion successful.</b><br>";
         }
-        else{
-            echo "<b>Insertion unsuccessful.</b><br>";
-        }
         
         if (!($w) && $y){
             echo "<b>Deletion successful.</b><br>";
-        }
-        else{
-            echo "<b>Deletion unsuccessful.</b><br>";
         }
     }
     ?>
