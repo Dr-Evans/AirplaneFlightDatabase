@@ -5,7 +5,8 @@
 </head>
 <body>
 
-<h1>Project 3 WORK IN PROGRESS - Nick Evans and Ron Quan</h1>
+<h1>Airplane Flight Database</h1>
+<h3>By: <a href="http://github.com/Dr-Evans">Nick Evans</a> and Ron Quan</h3>
 
 <h2>Login</h2>
 <form action="" method="post" name="login">

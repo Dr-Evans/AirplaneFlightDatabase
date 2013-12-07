@@ -39,7 +39,7 @@
     Name on Card: <input type="text" name="payment_full_name"> </br>
     Account Number: <input type="text" name="payment_account_number"> </br>
     Trip Number: <input type="text" name="payment_trip_number"> </br>
-    <input type="submit" value="search" name="payment_search_button" />
+    <input type="submit" value="pay" name="payment_pay_button" />
     <input type="reset" value="clear" name="payment_clear_button" />
 </form>
 
@@ -159,13 +159,17 @@
         
     }
     
-    if(isset($_POST['payment_full_name']) && isset($_POST['payment_account_number']) && isset($_POST['payment_trip_number']) && isset($_POST['payment_search_button'])){
+    if(isset($_POST['payment_full_name']) && isset($_POST['payment_account_number']) && isset($_POST['payment_trip_number']) && isset($_POST['payment_pay_button'])){
         $name = $_SESSION['username'];
         $fullName = $_POST['payment_full_name'];
         $accNum = $_POST["payment_account_number"];
 	$tripNum = $_POST["payment_trip_number"];
         
-        $date = to_date('SYSDATE','DD-MON-YY');
+        echo $name . $fullName . $accNum . $tripNum . "<br>";
+        
+        $date = date("d\-M\-y");
+        
+        echo $date . "<br>";
                         
         $reservationNumQuery = oci_parse($connection, "SELECT Reservation#
                                                         FROM Reservation
@@ -174,16 +178,24 @@
         oci_bind_by_name($reservationNumQuery, ":name", $name);
         
         oci_execute($reservationNumQuery);
-        oci_free_statement($reservationNumQuery);
         
         $resArray = oci_fetch_array($reservationNumQuery);
+        
+        oci_free_statement($reservationNumQuery);
         
         $resNum = $resArray[0];
         $transNum = $resNum;
         
-        echo $resNum;
+        echo $resNum . "<br>";
         
-        $result = oci_parse($connection, "INSERT INTO Payment VALUES (:tripNum, :transNum, '$date', :accNum, :fullName, :resNum)");
+        $result = oci_parse($connection, "INSERT INTO Payment VALUES (:tripNum, :resNum, :transNum, :fullName, :accNum, '$date')");
+        
+        if ($result){
+            echo "Payment made. Thank you!";
+        }
+        else {
+            echo "Payment failed. Please try again.";
+        }
 
         oci_bind_by_name($result, ":tripNum", $tripNum);
         oci_bind_by_name($result, ":transNum", $transNum);
@@ -193,6 +205,7 @@
         
         oci_execute($result);
         oci_free_statement($result);
+        
     }
     
     oci_close($connection);
