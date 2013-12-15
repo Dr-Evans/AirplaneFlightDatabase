@@ -45,8 +45,9 @@
 
 <?php
     include 'printquery.php';
+    include 'connection.php';
 
-    $connection = oci_connect('rquan', 'volcom24!!', '//oracle.cise.ufl.edu/orcl');
+    $connection = connectToServer();
     
     if(isset($_POST['query_date_text']) && isset($_POST['query_time_text']) && isset($_POST['query_city_text']) && isset($_POST['query_state_text']) && isset($_POST['query_search_button'])){
         

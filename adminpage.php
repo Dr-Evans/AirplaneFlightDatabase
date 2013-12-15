@@ -10,10 +10,11 @@
 <?php
     include 'printtables.php';
     include 'modifytables.php';
+    include 'connection.php';
     
     session_start();
     echo "Welcome, <b>" . $_SESSION['username'] . "</b>.";
-    $connection = oci_connect('rquan', 'volcom24!!', '//oracle.cise.ufl.edu/orcl');
+    $connection = connectToServer();
              
 ?>
 

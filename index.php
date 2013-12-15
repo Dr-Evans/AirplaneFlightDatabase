@@ -34,11 +34,12 @@ include 'admin.php';
 include 'customer.php';
 include 'register.php';
 include 'printquery.php';
+include 'connection.php';
 
 
 
 //Main PHP
-$connection = oci_connect('rquan', 'volcom24!!', '//oracle.cise.ufl.edu/orcl');
+$connection = connectToServer();
 
 if(!$connection){
 	echo "Connection could not be established";
